@@ -13,7 +13,7 @@ bool ReversiState::operator==(const ReversiState& other) const {
 }
 
 double ReversiState::hashcode() const {
-	return board.hashcode();
+	return board.hashcode() + static_cast<int>(turn);
 }
 
 bool ReversiState::isFinal() const {

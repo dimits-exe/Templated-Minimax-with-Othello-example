@@ -6,6 +6,8 @@
 #include <list>
 #include <utility>
 
+	
+//Credit to 'Alex- 123' for the implementation of the limit functions
 
 /// <summary>
 /// A class describing the game's board.

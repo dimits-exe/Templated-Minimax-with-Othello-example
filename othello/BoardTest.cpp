@@ -3,6 +3,9 @@
 #include <vector>
 #include <string>
 
+//Basic tests to test the limits functions, which are used to change the player's square each turn.
+//Credits to 'Alex- 123' for the functions' tests and implementation.
+
 //#define BoardTest
 using namespace std;
 

@@ -3,6 +3,8 @@
 #include "Minimax.h"
 
 #include <limits>
+#include <list>
+#include <exception>
 #include <math.h>
 
 
@@ -14,8 +16,6 @@
 #ifndef INT_MAX
 	#define INT_MAX std::numeric_limits<int>::max()
 #endif
-
-using namespace std;
 
 template <class T>
 Minimax<T>::Context::Context(int searchDepth) : bestValue(INT_MIN), searchDepth(searchDepth) {}
@@ -41,7 +41,7 @@ int Minimax<T>::getMaxDepth() {
 template <class T>
 void Minimax<T>::setMaxDepth(int newDepth) {
 	if (newDepth <= 2) {
-		throw logic_error("Depth must be more than 2.");
+		throw std::logic_error("Depth must be more than 2.");
 	}
 
 	maxDepth = newDepth;
@@ -52,7 +52,7 @@ template <class T>
 Position Minimax<T>::getBestMove(const T startingState) {
 	turnsPlayed++;
 
-	int searchDepth = min(maxDepth, depthCalculator(turnsPlayed));
+	int searchDepth = std::min(maxDepth, depthCalculator(turnsPlayed));
 	Context context(searchDepth);
 
 	min_value(context, startingState, INT_MIN, INT_MAX, searchDepth);
@@ -71,7 +71,7 @@ int Minimax<T>::min_value(Context& context, const T& state, int a, int b, int re
 	int value = INT_MAX;
 	const T* min_value_state = nullptr;  //will point to the state with the min value
 
-	const list<T>& children = state.getChildren();
+	const std::list<T>& children = state.getChildren();
 
 	if (children.size() == 0) {						//if no move is possible, defer to max_value
 		return max_value(context, state, a, b, remaining_depth - 1);
@@ -89,7 +89,7 @@ int Minimax<T>::min_value(Context& context, const T& state, int a, int b, int re
 			return child.getValue();
 		}
 
-		b = min(b, value);
+		b = std::min(b, value);
 	}
 
 	if (min_value_state == nullptr) {
@@ -119,7 +119,7 @@ int Minimax<T>::max_value(Context& context, const T& state, int a, int b, int re
 	context.closedSet.insert(state);
 	int value = INT_MIN;
 	const T* max_value_state = nullptr;	//will point to the state with the max value
-	const list<T>& children = state.getChildren();
+	const std::list<T>& children = state.getChildren();
 
 	if (children.size() == 0) {						//if no move is possible, defer to max_value
 		return min_value(context, state, a, b, remaining_depth - 1);
@@ -138,7 +138,7 @@ int Minimax<T>::max_value(Context& context, const T& state, int a, int b, int re
 			return child.getValue();
 		}
 
-		a = max(a, value);
+		a = std::max(a, value);
 	}
 
 	if (max_value_state == nullptr) {
@@ -153,7 +153,7 @@ int Minimax<T>::max_value(Context& context, const T& state, int a, int b, int re
 
 template <class	T>
 int Minimax<T>::exponential_calculator(int turnsPlayed) {
-	return static_cast <int>(floor(pow(turnsPlayed, 1.5))) + 1;
+	return static_cast <int>(std::floor(std::pow(turnsPlayed, 1.5))) + 1;
 }
 
 template <class	T>
