@@ -15,8 +15,6 @@
 	#define INT_MAX std::numeric_limits<int>::max()
 #endif
 
-using namespace std;
-
 template <class T>
 Minimax<T>::Context::Context(int searchDepth) : bestValue(INT_MIN), searchDepth(searchDepth) {}
 
